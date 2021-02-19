@@ -10,7 +10,6 @@ palette-generator is a React web app, so it requires some initial setup to be ab
 #### Requirements
 - Node.js
 - npm
-- 
 #### Instructions
 1. Clone this repo and navigate to the directory in your preferred shell
 2. Run `npm install`. You should only have to do this once.
