@@ -11,10 +11,10 @@ palette-generator is a React web app, so it requires some initial setup to be ab
 - Node.js
 - npm
 #### Instructions
-1. Clone this repo and navigate to the directory in your preferred shell
-2. Run `npm install`. You should only have to do this once.
-3. Run `npm start` to start the local development server. It should display the URL for accessing the app through a browser.
-4. (Optional) Run `npm run build` to build an optimized production build.
+- Clone this repo and navigate to the directory in your preferred shell
+- Run `npm install`. You should only have to do this once.
+- Run `npm start` to start the local development server. It should display the URL for accessing the app through a browser.
+- (Optional) Run `npm run build` to build an optimized production build.
 
 ## Technologies Used
 
