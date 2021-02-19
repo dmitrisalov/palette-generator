@@ -3,6 +3,3 @@ build/
 
 # Dependency folders
 node_modules/
-
-# Other files and folders
-.git/
