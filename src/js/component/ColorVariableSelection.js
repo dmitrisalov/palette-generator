@@ -9,12 +9,12 @@ class ColorVariableSelection extends Component {
         if (!this.props.colorVariables) {
             this.state = {
                 colorVariables: {
-                    baseHue: 0,
-                    hueShift: 0,
-                    baseSaturation: 0,
-                    saturationShift: 0,
-                    baseLightness: 0,
-                    lightnessShift: 0
+                    initialHue: 0,
+                    finalHue: 0,
+                    initialSaturation: 0,
+                    finalSaturation: 0,
+                    initialLightness: 0,
+                    finalLightness: 0
                 }
             }
         }
@@ -25,6 +25,11 @@ class ColorVariableSelection extends Component {
         }
     }
 
+    /**
+     * Handles what happens when the slider changes value.
+     * @param {string} stateField The field in this.state.colorVariables that is being updated.
+     * @param {number} value The value to update the field to.
+     */
     handleSliderChange = (stateField, value) => {
         this.setState(prevState => {
             return {
@@ -47,53 +52,53 @@ class ColorVariableSelection extends Component {
     render = () => {
         return(
             <Segment basic vertical>
-                <Header as='h4'>Base Hue ({Math.floor(this.state.colorVariables.baseHue)})</Header>
+                <Header as='h4'>Initial Hue ({Math.floor(this.state.colorVariables.initialHue)})</Header>
                 <Slider 
-                    stateField='baseHue'
+                    stateField='initialHue'
                     min={0} 
-                    max={360}
+                    max={720}
                     onUpdate={this.handleSliderChange}
-                    value={this.state.colorVariables.baseHue}
+                    value={this.state.colorVariables.initialHue}
                 />
-                <Header as='h4'>Hue Shift ({Math.floor(this.state.colorVariables.hueShift)})</Header>
+                <Header as='h4'>Final Hue ({Math.floor(this.state.colorVariables.finalHue)})</Header>
                 <Slider 
-                    stateField='hueShift'
+                    stateField='finalHue'
                     min={0} 
-                    max={50}
+                    max={720}
                     onUpdate={this.handleSliderChange}
-                    value={this.state.colorVariables.hueShift}
+                    value={this.state.colorVariables.finalHue}
                 />
-                <Header as='h4'>Base Saturation ({Math.floor(this.state.colorVariables.baseSaturation)})</Header>
+                <Header as='h4'>Initial Saturation ({Math.floor(this.state.colorVariables.initialSaturation)})</Header>
                 <Slider 
-                    stateField='baseSaturation'
+                    stateField='initialSaturation'
                     min={0} 
                     max={100}
                     onUpdate={this.handleSliderChange}
-                    value={this.state.colorVariables.baseSaturation}
+                    value={this.state.colorVariables.initialSaturation}
                 />
-                <Header as='h4'>Saturation Shift ({Math.floor(this.state.colorVariables.saturationShift)})</Header>
+                <Header as='h4'>Final Saturation ({Math.floor(this.state.colorVariables.finalSaturation)})</Header>
                 <Slider 
-                    stateField='saturationShift'
+                    stateField='finalSaturation'
                     min={0} 
                     max={100}
                     onUpdate={this.handleSliderChange}
-                    value={this.state.colorVariables.saturationShift}
+                    value={this.state.colorVariables.finalSaturation}
                 />
-                <Header as='h4'>Base Lightness ({Math.floor(this.state.colorVariables.baseLightness)})</Header>
+                <Header as='h4'>Initial Lightness ({Math.floor(this.state.colorVariables.initialLightness)})</Header>
                 <Slider 
-                    stateField='baseLightness'
+                    stateField='initialLightness'
                     min={0} 
                     max={100}
                     onUpdate={this.handleSliderChange}
-                    value={this.state.colorVariables.baseLightness}
+                    value={this.state.colorVariables.initialLightness}
                 />
-                <Header as='h4'>Lightness Shift ({Math.floor(this.state.colorVariables.lightnessShift)})</Header>
+                <Header as='h4'>Final Lightness ({Math.floor(this.state.colorVariables.finalLightness)})</Header>
                 <Slider 
-                    stateField='lightnessShift'
+                    stateField='finalLightness'
                     min={0} 
                     max={100}
                     onUpdate={this.handleSliderChange}
-                    value={this.state.colorVariables.lightnessShift}
+                    value={this.state.colorVariables.finalLightness}
                 />
             </Segment>
         );

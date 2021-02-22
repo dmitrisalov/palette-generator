@@ -8,13 +8,19 @@ class RampPaletteSection extends Component {
         super(props);
 
         this.state = {
-            rampActive: true
+            activeButton: 'ramp'
         };
     }
 
-    setRampActive = (value) => {
+    /**
+     * Sets the active button to either 'ramp' or 'palette'.
+     * @param {string} value The name of the button that is being set as active.
+     */
+    setActiveButton = (value) => {
         this.setState(prevState => {
-            return {rampActive: value};
+            return {
+                activeButton: value
+            };
         });
     }
 
@@ -23,13 +29,19 @@ class RampPaletteSection extends Component {
     ///////////////////////
 
     render = () => {
-        let builderComponent = this.state.rampActive ? <RampBuilder /> : <PaletteBuilder />;
+        let builderComponent;
+        if (this.state.activeButton == 'ramp') {
+            builderComponent = <RampBuilder />;
+        }
+        else if (this.state.activeButton == 'palette') {
+            builderComponent = <PaletteBuilder />;
+        }
 
         return(
             <Segment basic vertical padded>
                 <Button.Group>
-                    <Button active={this.state.rampActive} onClick={() => {this.setRampActive(true)}}>Ramp</Button>
-                    <Button active={!this.state.rampActive} onClick={() => {this.setRampActive(false)}}>Palette</Button>                    
+                    <Button active={this.state.activeButton == 'ramp'} onClick={() => {this.setActiveButton('ramp')}}>Ramp</Button>
+                    <Button active={!this.state.activeButton == 'palette'} onClick={() => {this.setActiveButton('palette')}}>Palette</Button>                    
                 </Button.Group>
                 <Segment vertical padded>
                     {builderComponent}

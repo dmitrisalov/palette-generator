@@ -5,13 +5,12 @@ import {hslToHex} from '../../util/ColorUtils.js'
 class ColorRamp extends Component {
     constructor(props) {
         super(props);
-
-        this.satShiftMultipliers = [1.2, 1, 1, 1, 1, .5, .25, 0, -.4, -.5, -.75, -.75, -.75, -.75, -.80, -1];
-        this.lightShiftMultipliers = [1.2, 1, 1, 1, 1, 1, .7, .6, .6, .5, .3, .3, .3, .3, .3, .3];
-        this.satMultipliersLength = this.satShiftMultipliers.length;
-        this.lightMultipliersLength = this.lightShiftMultipliers.length;
     }
 
+    /**
+     * Generates the cells that display the hex values of colors.
+     * @returns {Array} Array of jsx for each cell.
+     */
     generateHexValueCells = () => {
         let colors = this.colors;
 
@@ -28,6 +27,10 @@ class ColorRamp extends Component {
         return cellsJsx;
     }
 
+    /**
+     * Generates the cells that display the actual colors.
+     * @returns {Array} Array of jsx for each cell.
+     */
     generateColorCells = () => {
         this.colors = this.getColorValues(this.props.numSwatches, this.props.colorVariables);
         let colors = this.colors;
@@ -50,52 +53,42 @@ class ColorRamp extends Component {
         return cellsJsx;
     }
 
+    /**
+     * Get an array of HSL colors.
+     * @param {number} numColors Number of colors.
+     * @param {Object} colorVariables The variables used to generate the colors.
+     * @return {Array} An array of colors in the form of: {hue, saturation, lightness}.
+     */
     getColorValues = (numColors, colorVariables) => {
-        let baseIndex = Math.floor(numColors / 2) - 1;
+        let baseColor = {
+            hue: colorVariables.initialHue,
+            saturation: colorVariables.initialSaturation,
+            lightness: colorVariables.initialLightness
+        };
 
-        // Calculating how much the lightness is able to spread
-        let lowestLightness = colorVariables.baseLightness - colorVariables.lightnessShift;
-        lowestLightness = lowestLightness < 0 ? 0 : lowestLightness;
-        let highestLightness = colorVariables.baseLightness + colorVariables.lightnessShift;
-        highestLightness = highestLightness > 100 ? 100 : highestLightness;
-        let possibleLightnessSpread = Math.min(
-            Math.abs(lowestLightness - colorVariables.baseLightness), 
-            Math.abs(highestLightness - colorVariables.baseLightness)
-        );
-        let lightnessSpread = possibleLightnessSpread * colorVariables.lightnessShift / 100;
-        lowestLightness = colorVariables.baseLightness - lightnessSpread;
-        highestLightness = colorVariables.baseLightness + lightnessSpread;
-        let lightnessStep = (highestLightness - lowestLightness) / numColors;
+        let finalColor = {
+            hue: colorVariables.finalHue,
+            saturation: colorVariables.finalSaturation,
+            lightness: colorVariables.finalLightness
+        };
 
-        // Calculating how much the saturation is able to spread
-        let lowestSaturation = colorVariables.baseSaturation - colorVariables.saturationShift;
-        lowestSaturation = lowestSaturation < 0 ? 0 : lowestSaturation;
-        let highestSaturation = colorVariables.baseSaturation + colorVariables.saturationShift;
-        highestSaturation = highestSaturation > 100 ? 100 : highestSaturation;
-        let possibleSaturationSpread = Math.min(
-            Math.abs(lowestSaturation - colorVariables.baseSaturation), 
-            Math.abs(highestSaturation - colorVariables.baseSaturation)
-        );
-        let saturationSpread = possibleSaturationSpread * colorVariables.saturationShift / 100;
-        lowestSaturation = colorVariables.baseSaturation - saturationSpread;
-        highestSaturation = colorVariables.baseSaturation + saturationSpread;
-        let saturationStep = (highestSaturation - lowestSaturation) / numColors;
+        let colorStep = {
+            hue: (finalColor.hue - baseColor.hue) / (numColors - 1),
+            saturation: (finalColor.saturation - baseColor.saturation) / (numColors - 1),
+            lightness: (finalColor.lightness - baseColor.lightness) / (numColors - 1)
+        };
 
-        // Generate the colors from left to right according to all of the color variables
         let colors = [];
-
         for (let i = 0; i < numColors; i++) {
-            let relativeIndex = i - baseIndex;
-
             let color = {
-                hue: colorVariables.baseHue + colorVariables.hueShift * relativeIndex,
-                saturation: colorVariables.baseSaturation - saturationStep * relativeIndex + saturationStep / 2,
-                lightness: colorVariables.baseLightness + lightnessStep * relativeIndex - lightnessStep / 2
+                hue: baseColor.hue + colorStep.hue * i,
+                saturation: baseColor.saturation + colorStep.saturation * i,
+                lightness: baseColor.lightness + colorStep.lightness * i
             };
 
             colors.push(color);
         }
-        console.log(colors);
+
         return colors;
     }
 
