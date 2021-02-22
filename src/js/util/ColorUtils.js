@@ -1,3 +1,10 @@
+/**
+ * Converts an HSL color to its hex value. Found online.
+ * @param {number} h The hue.
+ * @param {number} s The saturation.
+ * @param {number} l The lightness.
+ * @returns {string} The hex value.
+ */
 const hslToHex = (h, s, l) => {
     s /= 100;
     l /= 100;
@@ -44,4 +51,35 @@ const hslToHex = (h, s, l) => {
     return "#" + r + g + b;
 }
 
-export {hslToHex};
+/**
+ * Limits an HSL color's properties to 0-360, 0-100, and 0-100 respectively.
+ * @param {Object} color An HSL color in the form: {hue, saturation, lightness}.
+ * @returns {Object} The limited color in the form: {hue, saturation, lightness}.
+ */
+const limitColorVariables = (color) => {
+    let newSaturation = color.saturation;
+    if (newSaturation < 0) {
+        newSaturation = 0;
+    }
+    else if (newSaturation > 100) {
+        newSaturation = 100;
+    }
+
+    let newLightness = color.lightness;
+    if (newLightness < 0) {
+        newLightness = 0;
+    }
+    else if (newLightness > 100) {
+        newLightness = 100;
+    }
+
+    let newColor = {
+        hue: color.hue % 360,
+        saturation: newSaturation,
+        lightness: newLightness
+    };
+
+    return newColor;
+}
+
+export {hslToHex, limitColorVariables};
